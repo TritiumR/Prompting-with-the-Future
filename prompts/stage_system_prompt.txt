@@ -1,0 +1,20 @@
+# Input
+We will provide you some multi-view observations of the same one robot manipulation scene.
+Each of the observation is represented by one image taken from a specific camera view.
+
+# Instruction
+The goal of this robot is <instruction>.
+The subgoals of this robot are
+<subgoal>
+please tell us which stage the robot is in (what's the next subgoal) based on the observations.
+
+For example, if the subgoal is 1. "A" 2. "B" 3. "C" ...
+If A is not satisfied, then the stage should be 1.
+If A is satisfied and B is not, then it should be in stage 2.
+...
+
+# Output
+You need to provide your descriptions of each view.
+Then, give the id of the current subgoal.
+The answer format is 'Description: <DESCRIPTION> Current Stage: <SUBGOAL_ID>'.
+There should be only one number after the 'Current Stage: '.

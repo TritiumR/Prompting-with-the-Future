@@ -1,0 +1,18 @@
+# Input
+We will provide the goal of a robot manipulation task as a language description.
+
+# Instruction
+The goal of this robot is <instruction>.
+Please give determine whether the robot should keep the gripper closed for the whole manipulation process.
+There is not object in the gripper at the start, every tool-using need to grasp the tool first.
+
+# Reasoning
+Most of the case the robot should not close the gripper since grasping needs to open and close the gripper. For example, "moving something" need grasping, "Do something with A" usually requires to grasp A first, ... These tasks should not close the gripper at the start.
+But for tasks such as pressing a button or a key, which requires a small contact area, the robot should keep the gripper closed.
+
+You need to think step by step about what actions the robot need to do, if it includes gripper action, open/close grasp/release, then we should not keep the gripper closed for the whole manipulation process.
+Unless the robot does not need any gripper open/close and requires a small contact area, then we should close.
+
+# Output
+The answer format is "Reasoning: <REASONING> Keep Gripper Closed: <Yes/No>".
+There should be only "Yes" or "No" after the "Keep Gripper Closed: ".

@@ -1,0 +1,19 @@
+# Input
+We will provide you some multi-view observations of the same one robot manipulation scene.
+Each of the observation is represented by one image taken from a specific camera view.
+
+# Instruction
+The goal of this robot is <instruction>.
+please tell us which view is the best to determine how the robot need to move to complete the goal.
+
+# Reasoning
+Based on the goal of the robot, what's the important information needed from the image to judge the process. Therefore, which view is the best.
+If it's quite clear how the flying gripper should move to get closer to the goal from one camera view (e.g., the gripper is away from the correct position), then the view is good.
+If it's unclear how the flying gripper should move to further complete goal from one camera view (e.g., the gripper or the object is occluded or there is distance ambiguity), then the view is bad.
+
+# Output
+You need to provide your descriptions of each image.
+Then, give your reasoning.
+Finally, give the id of the best view.
+The answer format is 'Description: <DESCRIPTION> Reasoning <REASONING> Best View: <VIEW_ID>'.
+There should be only one number after the 'Best View: '.

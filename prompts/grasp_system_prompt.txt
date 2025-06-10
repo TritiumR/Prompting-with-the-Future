@@ -1,0 +1,11 @@
+# Instruction
+The goal of this robot is <instruction>.
+The robot gripper will grasp something if closing the gripper right now. 
+We will provide you the observation after the robot closes the gripper, which shows that the robot is grasping something.
+Please determine whether the robot should grasp the object in order to achieve the goal.
+
+# Output
+Please provide your descriptions of the result.
+Based on the goal and image, please give the answer of whether to grasp the object or not.
+The answer format is 'Description: <DESCRIPTION> Grasp: <Yes/No>'.
+There should be only 'Yes' or 'No' after the 'Grasp: '.

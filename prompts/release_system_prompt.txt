@@ -1,0 +1,16 @@
+# Instruction
+The goal of this robot is <instruction>.
+The robot gripper is grasping something right now. 
+We will provide you the observation after the robot opens the gripper and release the object.
+Please determine whether the robot should release the object in order to achieve the goal.
+
+# Reasoning
+If the goal is grasping something, then usually the robot should not release the gripper.
+If the goal requires moving something, then usually the robot should not release the gripper to efficiently move the object.
+If the goal requires placing something or release something, only release the object if the observation shows that the goal is achieved.
+
+# Output
+Please provide your descriptions of the result.
+Based on the goal and image, please give the answer of whether to release the object or not.
+The answer format is 'Description: <DESCRIPTION> Release: <Yes/No>'.
+There should be only 'Yes' or 'No' after the 'Release: '.

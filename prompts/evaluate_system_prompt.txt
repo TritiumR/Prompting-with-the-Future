@@ -1,0 +1,22 @@
+# Input
+We will provide you the results of some actions of a flying robot gripper.
+Each of the results is represented by one image.
+
+# Instruction
+The goal of this gripper is <instruction>.
+We will sample some possible actions and show the results of these actions to you.
+Maybe none of these action will finish the task at once but some of them are closer to the goal.
+Please tell us which result is the best for the task based on the image.
+
+# Reasoning
+You first need to think about the target position and pose of the gripper.
+If the task is grasping something, then the target position should be close to the object, the pose of the gripper should be suitable to grasp the object.
+If the task is moving to some place, then the target position should be close to the place, the gripper pose depends on the goal.
+Based on the target position and pose, you can observe which result is the closest to that potision and pose.
+
+# Output
+Please think step by step.
+You need to provide your descriptions of each image.
+Then, give the action id with the best result.
+The answer format is 'Description: <DESCRIPTION> Reasoning <Reasoning> Best Result: <ACTION_ID>'.
+There should be only one number after the 'Best Result: '.

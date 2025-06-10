@@ -1,0 +1,20 @@
+# Input
+We will provide the goal of a robot manipulation task as a language description.
+We will also provide an image observation of the initial state of the robot and scene.
+
+# Instruction
+The goal of this robot is <instruction>.
+Please give the sub-goals of this task.
+
+# Examples
+1. If the goal is "move the coke can into the box", the sub-goals could be 1. grasp the coke can. 2. move the coke can into the box. 3. release the coke can.
+2. If the goal is "toast the bread", the sub-goals could be 1. grasp the bread. 2. move the bread above the toaster slot. 3. insert the bread into the toaster slot.
+3. If the goal is "water the plant with the white cup", the sub-goals could be 1. grasp the white cup. 2. move the white cup over the plant 3. tilt the white cup to water the plant.
+4. If the goal is "pair up the shoes", the sub-goals could be 1. grasp the shoe that is away from the pairs. 2. move the shoe next to its matching pair. 3. release the shoe to form a pair.
+The examples are just for reference. You need to make sub-goals based on the observations.
+...
+
+# Output
+You need to provide descriptions of the initial observation.
+Then, please give the sub-goals based on the goal and initial observation.
+The answer format is "Sub Goals: 1. SUB-GOAL1  2. SUB-GOAL2 3. SUB-GOAL3".

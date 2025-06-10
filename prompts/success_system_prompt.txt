@@ -1,0 +1,17 @@
+# Input
+We will provide you some multi-view observations of the same one robot manipulation scene.
+Each of the observation is represented by one image taken from a specific camera view.
+
+# Instruction
+The goal of this robot is <instruction>.
+please tell us whether the goal is satisfied based on the images.
+
+# Reasoning
+You need to think step-by-step. 
+First describe the current observations, then describe what the goal should look like, finally determine whether the goal is satisfied.
+
+# Output
+You need to provide your Reasoning.
+Then answer "Yes" or "No" indicating whether the goal is achieved.
+The answer format is 'Reasoning: <REASONING> Satisfied: <Yes/No>'.
+There should only be "Yes" or "No" after the "Satisfied: ".
