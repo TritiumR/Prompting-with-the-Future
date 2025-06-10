@@ -4,21 +4,9 @@
 __pycache__/
 
 output/
-gaussian/data/
-gaussian/output/
-gaussian/colmap/
-gaussian/sam2/images/
-tmp_images/
+gaussians/data/
+gaussians/output/
+gaussians/colmap/
+sam2/images/
 
 results/
-voxel_results/
-
-svraster/output/
-svraster/data/
-svraster/colmap/
-svraster/sam2/images/
-demo_trajectory/
-
-droid/colmap_output/
-droid/
-demos/

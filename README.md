@@ -1,9 +1,14 @@
 # Prompting with the Future: Open-World Model Predictive Control with Interactive Digital Twins
 [Project Page](https://prompting-with-the-future.github.io/) 
-Official implementation of Prompting with the Future. We provide a demo on a scanned environment and also provide a pipeline for scanning your own environment for open-world manipulation.
 
-## Dependency
+<img  src="intro.gif" width="800">
+
+Official implementation of Prompting with the Future (RSS 2025). We provide a demo on a scanned environment and also provide a pipeline for scanning your own environment for open-world manipulation.
+
+## Installation
 ```
+git clone https://github.com/prompting-with-the-future/prompting-with-the-future.git
+cd prompting-with-the-future
 conda env create --file environment.yaml
 conda activate pwf
 pip install --upgrade mani_skill
@@ -12,7 +17,7 @@ conda install pytorch3d -c pytorch3d
 
 Please follow the instructions in the [2d Gaussian Splatting](https://github.com/hbb1/2d-gaussian-splatting) and repo to install the dependency for reconstruction.
 
-Since the environment for SAM2 is not compatible with the main environment and it is only used for reconstruction, we provide a separate environment for SAM2.
+Since the environment for SAM2[https://github.com/facebookresearch/sam2] is not compatible with the main environment and it is only used for reconstruction, we provide a separate environment for SAM2.
 
 ```
 conda create -n sam2 python=3.10.0
@@ -60,6 +65,7 @@ Change the `box` parameters in the `gaussians/gaussian_world.py` script to the b
 The post-processing flag will also fill the holes under the objects.
 
 ## Planning
+Start the planning on your own environment by running the following command.
 ```
 python main.py --scene_name {SCENE_NAME} --instruction {INSTRUCTION} --name {EXP_NAME}
 ```
