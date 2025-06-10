@@ -40,9 +40,11 @@ We provide two ways to scan your own environment for open-world manipulation.
 
 ### 1. Scan with an phone (recommended)
 Firstly, print a checkerboard (utils/reconstruct/checker_board.svg) and put it in the workspace.
+
 Then, use a phone camera to flexibly scan your environment. (60fps is recommended)
-Name your scene as `{SCENE_NAME}`.
-Put the video in the `gaussians/colmap/{SCENE_NAME}` folder.
+
+Name your scene as `{SCENE_NAME}` and put the video in the `gaussians/colmap/{SCENE_NAME}` folder.
+
 Run the following script to reconstruct the interactive digital twin with movable meshes and gaussians.
 
 ```
@@ -51,10 +53,10 @@ sh build.sh {SCENE_NAME} {INSTRUCTION}
 
 ### 2. Scan with a robot
 We also provide a script to use the robot to scan your environment.
-Due to different robot platforms, we provide an example script on Droid[https://droid-dataset.github.io/] setup for scanning with a robot.
-You can adapt the `utils/reconstruct/robot_scan.py` script for your own robot.
 
-The planning code is the same as the previous one.
+Due to different robot platforms, we provide an example script on Droid[https://droid-dataset.github.io/] setup for scanning with a robot.
+
+You can adapt the `utils/reconstruct/robot_scan.py` script for your own robot.
 
 ## Post-processing (optional)
 We found that VLMs are quite robust to the artifacts in the reconstructed scene.
@@ -65,7 +67,9 @@ Change the `box` parameters in the `gaussians/gaussian_world.py` script to the b
 The post-processing flag will also fill the holes under the objects.
 
 ## Planning
+Add your chatGPT API key in the `utils/prompt_gpt.py` script.
 Start the planning on your own environment by running the following command.
+
 ```
 python main.py --scene_name {SCENE_NAME} --instruction {INSTRUCTION} --name {EXP_NAME}
 ```
