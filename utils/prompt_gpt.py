@@ -6,7 +6,7 @@ import base64
 
 # OpenAI API Key
 # api_key = None
-api_key = "sk-_a66PUCIY5_DkEtoqIq3fcyBHeCKiXIkE_sTMNXOi-T3BlbkFJRE0XNZGEmXDxPDo6AulxjojmloSLFB4ynom7I4AKoA"
+api_key = ""
 headers = {
   "Content-Type": "application/json",
   "Authorization": f"Bearer {api_key}"
