@@ -44,7 +44,7 @@ if __name__ == '__main__':
     save_interval = args.save_interval
 
     # any file ends with .MOV will be considered as video file
-    video_name = [f for f in os.listdir(f'./colmap/{name}/') if f.endswith('.MOV')][0]
+    video_name = [f for f in os.listdir(f'../../gaussians/colmap/{name}/') if f.endswith('.MOV')][0]
     video_path = f'../../gaussians/colmap/{name}/{video_name}'
     if save_interval != 60:
         output_folder = f'../../gaussians/colmap/{name}_{save_interval}/extracted_frames'

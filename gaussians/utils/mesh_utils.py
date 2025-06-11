@@ -12,9 +12,8 @@
 import torch
 import numpy as np
 import os
-import math
 from tqdm import tqdm
-from gaussians.utils.render_utils import save_img_f32, save_img_u8
+from utils.render_utils import save_img_f32, save_img_u8
 from functools import partial
 import open3d as o3d
 
@@ -128,7 +127,7 @@ class GaussianExtractor(object):
         """
         Estimate the bounding sphere given camera pose
         """
-        from gaussians.utils.render_utils import transform_poses_pca, focus_point_fn
+        from utils.render_utils import focus_point_fn
         torch.cuda.empty_cache()
         c2ws = np.array([np.linalg.inv(np.asarray((cam.world_view_transform.T).cpu().numpy())) for cam in self.viewpoint_stack])
         poses = c2ws[:,:3,:] @ np.diag([1, -1, -1, 1])

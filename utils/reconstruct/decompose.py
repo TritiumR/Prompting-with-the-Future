@@ -1,14 +1,5 @@
-#!/usr/bin/env python3
-
-try:
-    import trimesh
-except ModuleNotFoundError:
-    print("trimesh is required. Please install with `pip install trimesh`")
-    exit(1)
-
-
+import trimesh
 import numpy as np
-import sys
 import os
 import argparse
 import coacd

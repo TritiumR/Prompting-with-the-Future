@@ -12,9 +12,9 @@
 import torch
 import math
 from diff_surfel_rasterization import GaussianRasterizationSettings, GaussianRasterizer
-from gaussians.scene.gaussian_model import GaussianModel
-from gaussians.utils.sh_utils import eval_sh
-from gaussians.utils.point_utils import depth_to_normal
+from scene.gaussian_model import GaussianModel
+from utils.sh_utils import eval_sh
+from utils.point_utils import depth_to_normal
 from e3nn import o3
 
 

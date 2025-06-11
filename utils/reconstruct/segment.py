@@ -1,15 +1,14 @@
 import torch
 import sys
-sys.path.append("../../")
+sys.path.append("../../sam2")
+sys.path.append("../")
 from sam2.sam2_video_predictor import SAM2VideoPredictor
 from transformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig
-from utils.prompt_gpt import generate_segment_names, get_names
+from prompt_gpt import generate_segment_names, get_names
 import numpy as np
 import torch
-import requests
 import cv2
 from PIL import Image
-import requests
 import re
 import open3d as o3d
 from scipy.spatial import KDTree
@@ -22,7 +21,7 @@ def get_momol_prompt(image, instruction):
     """
     Get the all objects names relevant to the instruction from the image by prompting GPT
     """
-    prompt_file = "../../prompts/segment_all_name_system_prompt.txt"
+    prompt_file = "../../prompts/segment_system_prompt.txt"
     with open(prompt_file, "r") as f:
         system_prompt = f.read()
 
@@ -63,8 +62,6 @@ def post_process_mesh(mesh, cluster_to_keep=1):
     mesh_0.remove_triangles_by_mask(triangles_to_remove)
     mesh_0.remove_unreferenced_vertices()
     mesh_0.remove_degenerate_triangles()
-    # print("num vertices raw {}".format(len(mesh.vertices)))
-    # print("num vertices post {}".format(len(mesh_0.vertices)))
     return mesh_0, triangles_to_remove
 
 
@@ -110,20 +107,9 @@ def point(image, text_list):
         device_map='cpu'
     )
 
-    # process the image and text
-    # text = "Please point to all movable objects on the table"
-    # text = "Please point to the bread"
-    # text = "Please point to the cup on the table"
-    # text = "Please point to the shoes"
-    # text = "Please point to the drum stick"
-    # text = "Please point to the cucumber on the table"
-    # text = "Please point to charger"
-    # text = "Please point to egg box"
     generated_text_list = []
     for text in text_list:
         text = f"Please point to the {text}"
-        # text = "Please point to the tennis ball on the table"
-        # text = "Please point to toy blocks"
         inputs = processor.process(
             images=[image],
             text=text,
@@ -195,17 +181,9 @@ def segment(video_path, points, mesh, per_pixel_vertices):
             vis_mask = np.zeros((masks[0].shape[1], masks[0].shape[2]), dtype=np.uint8)
             for object_id in object_ids:
                 mask = masks[object_id]
-                # print('mask:', mask.shape)
-                # mask_min = mask.min()
-                # mask_max = mask.max()
                 object_mask = (mask > 0.0).cpu().numpy().astype(np.uint8).transpose(1, 2, 0)
 
-                # print('object_mask:', object_mask.shape)
                 vis_mask[object_mask[:, :, 0] > 0] = 255 / len(object_ids) * (object_id + 1)
-                # print(object_mask.shape)
-                # cv2.imshow("Object mask", object_mask * 255)
-                # cv2.imwrite(f"images/mask_{frame_idx}_{object_id}.png", object_mask * 255)
-            # cv2.imwrite(f"images/mask_{frame_idx}.png", vis_mask)
 
     threshold = 0.005
     object_meshes = []
@@ -220,19 +198,15 @@ def segment(video_path, points, mesh, per_pixel_vertices):
         in_box_vertices = mesh_vertices[in_box_vertices_ids]
 
         kdtree = KDTree(object_vertices)
-        # distances, indices = kdtree.query(gaussian_points, k=1)
         distances, indices = kdtree.query(in_box_vertices, k=1)
-        # print('distances:', distances.shape)
 
         object_indices = np.where(distances < threshold)[0]
         object_indices = in_box_vertices_ids[object_indices]
-        # print('object_indices:', object_indices.shape)
 
         # mask the inbox vertices
         vertices_labels[object_indices] = obj_id
 
         # save object mesh
-        # print('object_mesh:', object_mesh.vertices.shape)
         # Convert sub_vertex_ids to a set for fast lookup
         object_vertex_ids_set = set(object_indices)
 
@@ -242,18 +216,14 @@ def segment(video_path, points, mesh, per_pixel_vertices):
 
         # Extract the subset of vertices that are actually used in the sub_faces
         used_vertex_ids = np.unique(object_faces)
-        # print('used_vertex_ids:', used_vertex_ids.shape)
-        # object_vertex_map = {old_id: new_id for new_id, old_id in enumerate(used_vertex_ids)}
 
         object_vertex_map = np.zeros(mesh_vertices.shape[0], dtype=int) - 1  # Default to -1 for unmapped vertices
         object_vertex_map[used_vertex_ids] = np.arange(len(used_vertex_ids))
 
         # Remap the face indices to the new vertex numbering
         remapped_faces = object_vertex_map[object_faces].astype(np.int32)
-        # print('remapped_faces:', remapped_faces.shape, remapped_faces.min(), remapped_faces.max())
 
         object_vertices = mesh_vertices[used_vertex_ids].astype(np.float64)
-        # print('object_vertices: ', object_vertices.shape)
 
         object_mesh = o3d.geometry.TriangleMesh(
             vertices=o3d.utility.Vector3dVector(object_vertices),
@@ -261,15 +231,10 @@ def segment(video_path, points, mesh, per_pixel_vertices):
         )
 
         post_object_mesh, triangles_to_remove = post_process_mesh(object_mesh)
-        # print('triangles_to_remove:', triangles_to_remove.shape)
 
         removed_face_id = np.where(triangles_to_remove)[0]
 
-        # print('removed_face_id:', removed_face_id.shape)
-
         removed_vertices = np.unique(remapped_faces[removed_face_id])
-
-        # print('removed_vertices:', removed_vertices.shape)
 
         give_back_to_background = used_vertex_ids[removed_vertices]
 
@@ -291,10 +256,8 @@ def segment(video_path, points, mesh, per_pixel_vertices):
     background_vertex_map[used_vertex_ids] = np.arange(len(used_vertex_ids))
 
     remapped_faces = background_vertex_map[background_faces].astype(np.int32)
-    # print('remapped_faces:', remapped_faces.shape, remapped_faces.min(), remapped_faces.max())
 
     background_vertices = mesh_vertices[used_vertex_ids].astype(np.float64)
-    # print('object_vertices: ', object_vertices.shape)
 
     background_mesh = o3d.geometry.TriangleMesh(
         vertices=o3d.utility.Vector3dVector(background_vertices),
@@ -325,15 +288,15 @@ if __name__ == "__main__":
 
     iteration = args.iteration
     if iteration is not None:
-        mesh_path = f"../output/{name}/train/ours_{iteration}/fuse_post.ply"
-        folder = f"../output/{name}/train/ours_{iteration}"
+        mesh_path = f"../../gaussians/output/{name}/train/ours_{iteration}/fuse_post.ply"
+        folder = f"../../gaussians/output/{name}/train/ours_{iteration}"
     else:
-        mesh_floder = f'../output/{name}/train/'
+        mesh_floder = f'../../gaussians/output/{name}/train/'
         name_list = os.listdir(mesh_floder)
         max_iteration = np.max([int(name.split('_')[-1]) for name in name_list])
 
-        mesh_path = f"../output/{name}/train/ours_{max_iteration}/fuse_post.ply"
-        folder = f"../output/{name}/train/ours_{max_iteration}"
+        mesh_path = f"../../gaussians/output/{name}/train/ours_{max_iteration}/fuse_post.ply"
+        folder = f"../../gaussians/output/{name}/train/ours_{max_iteration}"
 
     video_path = mesh_path.replace(".ply", ".mp4")
 
@@ -355,7 +318,6 @@ if __name__ == "__main__":
     text_list = get_momol_prompt(encoded_image, instruction)
 
     print('text_list:', text_list)
-    # exit(0)
 
     # get object points
     points_list = point(first_frame, text_list)
@@ -370,7 +332,7 @@ if __name__ == "__main__":
             name_list += [text_list[text_id] + str(i) for i in range(len(pairs))]
 
     print('pairs_list:', pairs_list)
-    # # Convert matches to a structured list of float pairs
+    # Convert matches to a structured list of float pairs
     coordinate_pairs = [[[float(x), float(y)]] for x, y in pairs_list]
 
     image_size = first_frame.size
@@ -378,12 +340,9 @@ if __name__ == "__main__":
         coordinate_pair[0][0] = int(coordinate_pair[0][0] / 100 * image_size[0])
         coordinate_pair[0][1] = int(coordinate_pair[0][1] / 100 * image_size[1])
 
-    # coordinate_pairs = [[[248, 245]], [[250, 336]], [[291, 420]]]
-
     scene_mesh = o3d.io.read_triangle_mesh(mesh_path)
     per_pixel_vertices = np.load(mesh_path.replace('.ply', '.npy'))
     print('per_pixel_vertices:', per_pixel_vertices.shape)
-
 
     if len(coordinate_pairs) == 0:
         o3d.io.write_triangle_mesh(f"{folder}/background.ply", scene_mesh)

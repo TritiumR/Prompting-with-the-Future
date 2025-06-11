@@ -3,9 +3,6 @@ import cv2
 import glob
 import sys
 import os
-import yaml
-from colmap.read_write_colmap import read_cameras_binary, read_images_binary, read_points3D_binary, write_cameras_binary, write_images_binary, write_points3D_binary
-from scipy.spatial.transform import Rotation as Rot
 
 CHESSBOARD_ROWS = 7
 CHESSBOARD_COLS = 10 

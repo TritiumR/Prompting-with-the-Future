@@ -11,15 +11,15 @@
 
 import torch
 import numpy as np
-from gaussians.utils.general_utils import inverse_sigmoid, get_expon_lr_func, build_rotation
+from utils.general_utils import inverse_sigmoid, get_expon_lr_func, build_rotation
 from torch import nn
 import os
-from gaussians.utils.system_utils import mkdir_p
+from utils.system_utils import mkdir_p
 from plyfile import PlyData, PlyElement
-from gaussians.utils.sh_utils import RGB2SH
+from utils.sh_utils import RGB2SH
 from simple_knn._C import distCUDA2
-from gaussians.utils.graphics_utils import BasicPointCloud
-from gaussians.utils.general_utils import strip_symmetric, build_scaling_rotation
+from utils.graphics_utils import BasicPointCloud
+from utils.general_utils import strip_symmetric, build_scaling_rotation
 
 class GaussianModel:
 

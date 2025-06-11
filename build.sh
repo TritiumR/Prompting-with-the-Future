@@ -47,18 +47,14 @@ colmap model_aligner \
     --alignment_type ecef \
     --robust_alignment_max_error 3.0
 
-python train.py -s data/colmap/"$NAME"_"$SUFFIX" --model_path ./output/"$NAME"_"$SUFFIX" --ip 127.0.0.1
-python render.py -s data/colmap/"$NAME"_"$SUFFIX" -m ./output/"$NAME"_"$SUFFIX" --render_path --skip_test --skip_train
+python train.py -s ./data/colmap/"$NAME"_"$SUFFIX" --model_path ./output/"$NAME"_"$SUFFIX" --ip 127.0.0.1
+python render.py -s ./data/colmap/"$NAME"_"$SUFFIX" -m ./output/"$NAME"_"$SUFFIX" --render_path --skip_test --skip_train
 
 cd ../utils/reconstruct
 
 python render_video.py --name "$NAME"_"$SUFFIX"
 
-cd ../../sam2
-
 conda run --no-capture-output -n sam2 python segment.py --name "$NAME"_"$SUFFIX" --instruction "$INSTRUCTION"
-
-cd ../
 
 python decompose.py --name "$NAME"_"$SUFFIX"
 

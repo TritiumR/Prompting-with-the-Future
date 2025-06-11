@@ -6,6 +6,9 @@
 Official implementation of Prompting with the Future (RSS 2025). We provide a demo on a scanned environment and also provide a pipeline for scanning your own environment for open-world manipulation.
 
 ## Installation
+
+### Requirements for running the demo
+
 ```
 git clone https://github.com/prompting-with-the-future/prompting-with-the-future.git
 cd prompting-with-the-future
@@ -15,7 +18,9 @@ pip install --upgrade mani_skill
 conda install pytorch3d -c pytorch3d
 ```
 
-Please follow the instructions in the [2d Gaussian Splatting](https://github.com/hbb1/2d-gaussian-splatting) and repo to install the dependency for reconstruction.
+### Requirements for scanning your own environment
+
+Please follow the instructions in [COLMAP](https://colmap.github.io/) and [2d Gaussian Splatting](https://github.com/hbb1/2d-gaussian-splatting) to install the dependency for reconstruction.
 
 Since the environment for SAM2[https://github.com/facebookresearch/sam2] is not compatible with the main environment and it is only used for reconstruction, we provide a separate environment for SAM2.
 

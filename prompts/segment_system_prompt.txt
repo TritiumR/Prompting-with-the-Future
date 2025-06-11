@@ -1,0 +1,23 @@
+# Input
+We will provide you an instruction of a robot manipulation task and an image of the manipulation scene.
+
+# Output
+Please describe all the objects relevant to the instruction on the table one-by-one.
+The format should be "Objects: 1. OBJECT_1 2. OBJECT_2, ..."
+
+# Examples
+Instruction: put the orange airpods into the bag.
+Objects: 1. orange airpods. 2. black bag
+
+Instruction: put the blocks on the table.
+Objects: 1. blue block. 2. yellow block 3. green block
+
+Instruction: drink water with the blue cup.
+Objects: 1. blue cup.
+
+Instruction: set up the table
+Objects: 1. forks 2. knives 3. plates (depends on the image)
+
+Instruction: do nothing
+Objects: 
+

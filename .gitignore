@@ -7,6 +7,5 @@ output/
 gaussians/data/
 gaussians/output/
 gaussians/colmap/
-sam2/images/
 
 results/

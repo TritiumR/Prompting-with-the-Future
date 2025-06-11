@@ -1,6 +1,5 @@
 from pytorch3d.renderer import (
     look_at_view_transform,
-    RasterizationSettings
 )
 
 import torch
@@ -11,7 +10,6 @@ import os
 import argparse
 
 from self_render import render_meshes_with_projection
-from utils.camera import get_up_direction
 
 
 def camera(num_views, device):
@@ -42,8 +40,6 @@ def camera(num_views, device):
     elev = torch.tensor(np.array(elevs), device=device).float()
     azim = torch.tensor(np.array(azims), device=device).float()
 
-    # up = get_up_direction(elev, azim)
-    # up[:, 0] = -up[:, 0]
     up = torch.tensor(np.array([[0, 0, -1]]), device=device).float()
     at = torch.tensor(np.array([[0, 0, 0]]), device=device).float()
     R, T = look_at_view_transform(dist=distance, elev=elev, azim=azim, up=up, at=at, device=device)
@@ -59,9 +55,6 @@ def render_parser():
 
 
 if __name__ == "__main__":
-    import sys
-    import sys
-
     args = render_parser().parse_args()
     name = args.name
 
@@ -87,16 +80,10 @@ if __name__ == "__main__":
 
     images = []
     per_pixel_vertices = []
-    # careful! batch_size can only be 1, todo: fix batch_size > 1
     batch_size = 20
     print('rendering...')
     for i in range(len(R) // batch_size):
         batch_images, batch_per_pixel_vertices = render_meshes_with_projection([scene_mesh], R[i * batch_size:(i + 1) * batch_size], T[i * batch_size:(i + 1) * batch_size], device, rotate_num=batch_size)
-        # save images
-        # vis_img = batch_images[0] * 255
-        # vis_img = vis_img.astype(np.uint8)[..., :3]
-        # cv2.imwrite(f'tmp_images/{i}.png', vis_img)
-        # print('batch_per_pixel_vertices:', batch_per_pixel_vertices.shape)
         images.append(batch_images)
         per_pixel_vertices.append(batch_per_pixel_vertices)
     
@@ -118,7 +105,6 @@ if __name__ == "__main__":
     video = cv2.VideoWriter(video_path, fourcc, fps, (width, height))
 
     for image in images:
-        # print('Image:', image.shape, image.min(), image.max())
         image = (image * 255).astype(np.uint8)[:, :, :3]
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         video.write(image)

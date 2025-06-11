@@ -1,11 +1,14 @@
+import sys
+sys.path.append('gaussians')
+
 import torch
-from gaussians.scene import Scene
-from gaussians.scene.cameras import Camera
+from scene import Scene
+from scene.cameras import Camera
 import os
-from gaussians.gaussian_renderer import render
-from gaussians.arguments import ModelParams, PipelineParams, get_combined_args_by_path
-from gaussians.gaussian_renderer import GaussianModel
-from gaussians.utils.mesh_utils import GaussianExtractor, to_cam_open3d, post_process_mesh
+from gaussian_renderer import render
+from arguments import ModelParams, PipelineParams, get_combined_args_by_path
+from gaussian_renderer import GaussianModel
+from utils.mesh_utils import GaussianExtractor
 import numpy as np
 import cv2
 from scipy.spatial import KDTree
