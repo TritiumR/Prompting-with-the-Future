@@ -78,3 +78,14 @@ Start the planning on your own environment by running the following command.
 ```
 python main.py --scene_name {SCENE_NAME} --instruction {INSTRUCTION} --name {EXP_NAME}
 ```
+
+## Citation
+If you find our code or paper is useful, please consider citing:
+```bibtex
+@inproceedings{ning2025prompting,
+  title={Prompting with the Future: Open-World Model Predictive Control with Interactive Digital Twins},
+  author={Ning, Chuanruo and Fang, Kuan and Ma, Wei-Chiu},
+  booktitle={RSS},
+  year={2025}
+}
+```
